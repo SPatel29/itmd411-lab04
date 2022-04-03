@@ -35,4 +35,26 @@ public class Dao {
             se.printStackTrace();
         }
     }
+
+    public void insertRecords(BankRecords[] records) {
+        try {
+            System.out.println("Inserting records into table...");
+            stmt = conn.connect().createStatement();
+            String sql = null;
+
+            for (int i = 0; i < records.length; i += 1) {   //each elementi n records array is a Records object
+                sql = "INSERT INTO s_pate_tab (id, income, pep) "
+                        + "VALUES ('" + records[i].get_id() + "', '" + records[i].get_income() + "', '"
+                        + records[i].get_prep() + "')";
+                stmt.executeUpdate(sql);
+            }
+            System.out.println("Successfully added all 600 entries into table");
+
+        } catch (SQLException e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+    }
+
+    
 }
