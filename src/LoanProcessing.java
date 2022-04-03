@@ -8,7 +8,7 @@ public class LoanProcessing extends BankRecords {
         BankRecords bank = new BankRecords();
         bank.read_data();
         bank.process_data();
-        // dao.insertRecords(BankRecords.records);
+        //dao.insertRecords(BankRecords.records);
         ResultSet rs = dao.retrieveRecords();
         System.out.println("\nPrinting out entries to console: \n\n");
         try {

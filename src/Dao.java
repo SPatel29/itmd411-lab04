@@ -1,3 +1,4 @@
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -41,16 +42,22 @@ public class Dao {
         try {
             System.out.println("Inserting records into table...");
             stmt = conn.connect().createStatement();
-            String sql = null;
-
-            for (int i = 0; i < records.length; i += 1) { // each elementi n records array is a Records object
-                sql = "INSERT INTO s_pate_tab (id, income, pep) "
-                        + "VALUES ('" + records[i].get_id() + "', '" + records[i].get_income() + "', '"
-                        + records[i].get_prep() + "')";
-                stmt.executeUpdate(sql);
+            String sql = "INSERT INTO s_pate_tab ( " +
+                    "id, " +
+                    "income, " +
+                    "pep ) VALUES (" +
+                    "?, ?, ?)";
+            PreparedStatement stPrepare = conn.connect().prepareStatement(sql);
+            for (int i = 0; i < records.length; i += 1) { // each element in records array is a Records object
+                stPrepare.setString(1, records[i].get_id()); // first column is id
+                stPrepare.setDouble(2, records[i].get_income()); // second column is income
+                stPrepare.setString(3, records[i].get_prep()); // third column is pep
+                stPrepare.executeUpdate();
             }
             System.out.println("Successfully added all 600 entries into table");
             conn.connect().close();
+            stPrepare.close();
+            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
