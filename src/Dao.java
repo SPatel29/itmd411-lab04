@@ -1,3 +1,4 @@
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -42,19 +43,32 @@ public class Dao {
             stmt = conn.connect().createStatement();
             String sql = null;
 
-            for (int i = 0; i < records.length; i += 1) {   //each elementi n records array is a Records object
+            for (int i = 0; i < records.length; i += 1) { // each elementi n records array is a Records object
                 sql = "INSERT INTO s_pate_tab (id, income, pep) "
                         + "VALUES ('" + records[i].get_id() + "', '" + records[i].get_income() + "', '"
                         + records[i].get_prep() + "')";
                 stmt.executeUpdate(sql);
             }
             System.out.println("Successfully added all 600 entries into table");
-
+            conn.connect().close();
         } catch (SQLException e) {
             // TODO: handle exception
             e.printStackTrace();
         }
+
     }
 
-    
+    public ResultSet retrieveRecords() {
+        ResultSet rs = null;
+        try {
+            stmt = conn.connect().createStatement();
+            String sql = "SELECT id, income, pep from s_pate_tab order by pep desc";
+            rs = stmt.executeQuery(sql);
+            conn.connect().close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
 }
