@@ -52,7 +52,6 @@ public class Dao {
             System.out.println("Successfully added all 600 entries into table");
             conn.connect().close();
         } catch (SQLException e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
 
@@ -61,9 +60,11 @@ public class Dao {
     public ResultSet retrieveRecords() {
         ResultSet rs = null;
         try {
+            System.out.println("\nAttemping to retrieve all records in database");
             stmt = conn.connect().createStatement();
             String sql = "SELECT id, income, pep from s_pate_tab order by pep desc";
             rs = stmt.executeQuery(sql);
+            System.out.println("\nAll records have been fetched and stored in the Result Set");
             conn.connect().close();
         } catch (SQLException e) {
             e.printStackTrace();
